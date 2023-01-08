@@ -17,18 +17,18 @@ const h1 = document.querySelector('h1')
 /* Dinamic DOM References
 --------------------------------------------------------- */
 let searchInput
+let cardIndex
 
 /* Variables and Constants
 --------------------------------------------------------- */
 let employees = []
-let cardIndex
 const firstCard = 0
 const lastCard = 11
 
 /* Styles added
 --------------------------------------------------------- */
 const mediaQuery = window.matchMedia('(min-width: 1024px)')
-body.style.background = '#212529'
+body.style.backgroundColor = '#212529'
 h1.style.color = '#f6fcf9'
 
 // Adjusts h1 font-size depending on screen size, wider than 1024 2rem, 1.25em otherwise
@@ -54,9 +54,14 @@ fetch(urlAPI)
     console.log(`API request failed: ${err}`)
   })
 
+/**
+ * Displays employee cards
+ * @param  {object} employeeData
+ */
 function displayEmployees(employeeData) {
   employees = employeeData
   let employeeHTML = ''
+
   employees.forEach((employee, index) => {
     let name = employee.name
     let email = employee.email
@@ -76,8 +81,19 @@ function displayEmployees(employeeData) {
                       </div>`
   })
   gallery.insertAdjacentHTML('beforeend', employeeHTML)
+
+  // Adds suttle animation to cards when page loads
+  const employeeCards = document.querySelectorAll('div.card')
+  const cards = [...employeeCards]
+  for (const card of cards) {
+    let randomAniDelay = Math.floor(Math.random() * 500)
+    card.style.animation = `fadeIn 1s .${randomAniDelay}s ease forwards`
+  }
 }
 
+/**
+ * Adds a search feature to filter employee by name
+ */
 const addSearch = function () {
   const searchHTML = `<form action="#" method="get">
                         <input type="search" id="search-input" class="search-input" placeholder="Filter employee...">
@@ -87,8 +103,15 @@ const addSearch = function () {
   search.insertAdjacentHTML('beforeend', searchHTML)
   searchInput = document.getElementById('search-input')
 }
+
+// calls function
 addSearch()
 
+/**
+ * Selects and display modal card
+ * @param  {event type} 'click'
+ * @param  {listener} (e)
+ */
 gallery.addEventListener('click', (e) => {
   if (e.target !== gallery) {
     const card = e.target.closest('.card')
@@ -97,6 +120,10 @@ gallery.addEventListener('click', (e) => {
   }
 })
 
+/**
+ * Displays card modal
+ * @param  {int} index
+ */
 const displayModal = (index) => {
   let {
     name,
@@ -133,11 +160,12 @@ const displayModal = (index) => {
   gallery.insertAdjacentHTML('afterend', modalHTML)
 
   const modalContainer = document.querySelector('.modal-container')
-
+  // Closes modal card
   document.getElementById('modal-close-btn').addEventListener('click', (e) => {
     modalContainer.remove()
   })
 
+  // Selects and shows previous employee card
   document.getElementById('modal-prev').addEventListener('click', (e) => {
     modalContainer.remove()
     if (cardIndex > firstCard) {
@@ -148,6 +176,7 @@ const displayModal = (index) => {
     }
   })
 
+  // Selects and shows next employee card
   document.getElementById('modal-next').addEventListener('click', (e) => {
     modalContainer.remove()
     if (cardIndex < lastCard) {
@@ -159,13 +188,18 @@ const displayModal = (index) => {
   })
 }
 
+/**
+ * Searches and selects matching employee card's by name
+ * @param  {event type} 'input'
+ * @param  {listener} (e)
+ */
 searchInput.addEventListener('input', (e) => {
-  const names = document.querySelectorAll('.card-name')
-  const filterInput = searchInput.value.toUpperCase()
+  const names = document.querySelectorAll('h3.card-name')
+  const currentValue = searchInput.value.toUpperCase()
   const employees = [...names]
 
   for (const employee of employees) {
-    if (employee.innerHTML.toUpperCase().includes(filterInput)) {
+    if (employee.innerHTML.toUpperCase().includes(currentValue)) {
       employee.closest('.card').style.display = 'flex'
     } else {
       employee.closest('.card').style.display = 'none'
