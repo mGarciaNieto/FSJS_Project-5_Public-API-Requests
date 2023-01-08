@@ -9,5 +9,6 @@ The fifth of ten projects for the Full Stack JavaScript Techdegree program at Tr
 ## CSS file
 - keyframes fadeIn added to incorporate to employee cards with javascript
 - box-shadow added to employee cards
+- several Google Fonts added 
 
 > Ready for marking...
