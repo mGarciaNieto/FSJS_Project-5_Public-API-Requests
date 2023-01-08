@@ -32,7 +32,7 @@ body.style.background = '#212529'
 h1.style.color = '#f6fcf9'
 
 // Adjusts h1 font-size depending on screen size, wider than 1024 2rem, 1.25em otherwise
-mediaQuery.matches ?  h1.style.fontSize = '2.2rem' :  h1.style.fontSize = '1.25em'
+mediaQuery.matches ? (h1.style.fontSize = '2.2rem') : (h1.style.fontSize = '1.25em')
 
 // listens for changes on screen size
 mediaQuery.addListener(() => {
@@ -42,7 +42,6 @@ mediaQuery.addListener(() => {
     h1.style.fontSize = '1.25em'
   }
 })
-
 
 /* Fetch from the API
 --------------------------------------------------------- */
@@ -90,6 +89,14 @@ const addSearch = function () {
 }
 addSearch()
 
+gallery.addEventListener('click', (e) => {
+  if (e.target !== gallery) {
+    const card = e.target.closest('.card')
+    cardIndex = card.getAttribute('data-index')
+    displayModal(cardIndex)
+  }
+})
+
 const displayModal = (index) => {
   let {
     name,
@@ -125,7 +132,14 @@ const displayModal = (index) => {
     `
   gallery.insertAdjacentHTML('afterend', modalHTML)
 
+  const modalContainer = document.querySelector('.modal-container')
+
+  document.getElementById('modal-close-btn').addEventListener('click', (e) => {
+    modalContainer.remove()
+  })
+
   document.getElementById('modal-prev').addEventListener('click', (e) => {
+    modalContainer.remove()
     if (cardIndex > firstCard) {
       cardIndex--
       displayModal(cardIndex)
@@ -135,6 +149,7 @@ const displayModal = (index) => {
   })
 
   document.getElementById('modal-next').addEventListener('click', (e) => {
+    modalContainer.remove()
     if (cardIndex < lastCard) {
       cardIndex++
       displayModal(cardIndex)
@@ -144,11 +159,16 @@ const displayModal = (index) => {
   })
 }
 
-gallery.addEventListener('click', (e) => {
-  if (e.target !== gallery) {
-    const card = e.target.closest('.card')
-    cardIndex = card.getAttribute('data-index')
+searchInput.addEventListener('input', (e) => {
+  const names = document.querySelectorAll('.card-name')
+  const filterInput = searchInput.value.toUpperCase()
+  const employees = [...names]
 
-    displayModal(cardIndex)
+  for (const employee of employees) {
+    if (employee.innerHTML.toUpperCase().includes(filterInput)) {
+      employee.closest('.card').style.display = 'flex'
+    } else {
+      employee.closest('.card').style.display = 'none'
+    }
   }
 })
