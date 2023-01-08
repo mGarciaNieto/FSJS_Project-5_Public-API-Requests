@@ -6,5 +6,8 @@ The fifth of ten projects for the Full Stack JavaScript Techdegree program at Tr
 - h1 color has been modified
 - h1 font-size changes depending on media query
 - suttle animation has been added to cards when page loads
+## CSS file
+- keyframes fadeIn added to incorporate to employee cards with javascript
+- box-shadow added to employee cards
 
 > Ready for marking...
