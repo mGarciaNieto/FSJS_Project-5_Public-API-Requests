@@ -125,6 +125,15 @@ gallery.addEventListener('click', (e) => {
  * @param  {int} index
  */
 const displayModal = (index) => {
+  // Dissables 'PREV' button on first card and 'NEXT' button on last card
+  let disabledPrev = ''
+  let disabledNext = ''
+  if (index == firstCard) {
+    disabledPrev = 'disabled'
+  } else if (index == lastCard) {
+    disabledNext = 'disabled'
+  }
+
   let {
     name,
     dob,
@@ -152,8 +161,8 @@ const displayModal = (index) => {
 
                       // IMPORTANT: Below is only for exceeds tasks 
                       <div class="modal-btn-container">
-                          <button type="button" id="modal-prev" class="modal-prev btn">Prev</button>
-                          <button type="button" id="modal-next" class="modal-next btn">Next</button>
+                          <button type="button" ${disabledPrev} id="modal-prev" class="modal-prev btn">Prev</button>
+                          <button type="button" ${disabledNext} id="modal-next" class="modal-next btn">Next</button>
                       </div>
                     </div>
     `
