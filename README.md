@@ -11,4 +11,4 @@ The fifth of ten projects for the Full Stack JavaScript Techdegree program at Tr
 - box-shadow added to employee cards
 - several Google Fonts added 
 
-> Ready for marking...
+> Grade: Exceeds Expecatations
