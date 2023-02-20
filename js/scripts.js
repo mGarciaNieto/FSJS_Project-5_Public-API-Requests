@@ -109,7 +109,7 @@ addSearch()
 
 /**
  * Selects and display modal card
- * @param  {event type} 'click'
+ * @param  {event} 'click'
  * @param  {listener} (e)
  */
 gallery.addEventListener('click', (e) => {
@@ -199,7 +199,7 @@ const displayModal = (index) => {
 
 /**
  * Searches and selects matching employee card's by name
- * @param  {event type} 'input'
+ * @param  {event} 'input'
  * @param  {listener} (e)
  */
 searchInput.addEventListener('input', (e) => {
